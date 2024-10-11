@@ -42,7 +42,8 @@ kind: Ingress
 metadata:
   name: my-app-ingress
   annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /
+    #nginx.ingress.kubernetes.io/rewrite-target: /
+    kubernetes.io/ingress.class: "alb"
 spec:
   rules:
   - host: my-app.example.com  # Change this to your domain or IP if needed
