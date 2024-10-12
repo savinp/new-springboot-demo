@@ -30,7 +30,7 @@ spec:
     app: my-app
   ports:
     - name: http
-      port: 80           # This should match the port number used in the Ingress
+      port: 8080           # This should match the port number used in the Ingress
       targetPort: 8080    # This is the port where your application is running inside the pods
   type: ClusterIP
 
@@ -45,7 +45,7 @@ metadata:
     alb.ingress.kubernetes.io/scheme: internet-facing         # Can be internet-facing or internal
     alb.ingress.kubernetes.io/backend-protocol: HTTP         # Protocol for communication with the backend service
     alb.ingress.kubernetes.io/target-type: ip
-    alb.ingress.kubernetes.io/healthcheck-port: "80"
+    alb.ingress.kubernetes.io/healthcheck-port: "8080"
     alb.ingress.kubernetes.io/healthcheck-path: "/api-service/hello"
 spec:
   rules:
@@ -58,4 +58,4 @@ spec:
           service:
             name: my-app-service
             port:
-              number: 80  # Ensure this matches the service's exposed port
+              number: 8080  # Ensure this matches the service's exposed port
