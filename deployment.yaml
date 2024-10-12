@@ -25,28 +25,30 @@ apiVersion: v1
 kind: Service
 metadata:
   name: my-app-service
-  labels:
-    app: my-app
 spec:
-  type: ClusterIP
   selector:
     app: my-app
   ports:
     - protocol: TCP
-      port: 80
-      targetPort: 8080
+      port: 80           # This should match the port number used in the Ingress
+      targetPort: 8080    # This is the port where your application is running inside the pods
+  type: ClusterIP
 
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: my-app-ingress
+  namespace: default
   annotations:
-    #nginx.ingress.kubernetes.io/rewrite-target: /
-    kubernetes.io/ingress.class: "alb"
+    alb.ingress.kubernetes.io/scheme: internet-facing         # Can be internet-facing or internal
+    alb.ingress.kubernetes.io/target-type: ip                # Either `instance` or `ip`
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP":80}]'  # Listener port for HTTP
+    alb.ingress.kubernetes.io/backend-protocol: HTTP         # Protocol for communication with the backend service
 spec:
+  ingressClassName: alb  # Specify the Ingress Class here
   rules:
-  - host: my-app.example.com  # Change this to your domain or IP if needed
+  - host: my-app.example.com
     http:
       paths:
       - path: /
@@ -55,5 +57,4 @@ spec:
           service:
             name: my-app-service
             port:
-              number: 80
-
+              number: 80  # Ensure this matches the service's exposed port
