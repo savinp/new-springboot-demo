@@ -41,17 +41,18 @@ metadata:
   name: my-app-ingress
   namespace: default
   annotations:
+    kubernetes.io/ingress.class: alb
     alb.ingress.kubernetes.io/scheme: internet-facing         # Can be internet-facing or internal
-    alb.ingress.kubernetes.io/target-type: ip                # Either `instance` or `ip`
-    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP":80}]'  # Listener port for HTTP
     alb.ingress.kubernetes.io/backend-protocol: HTTP         # Protocol for communication with the backend service
+    alb.ingress.kubernetes.io/target-type: ip
+    alb.ingress.kubernetes.io/healthcheck-port: "80"
+    alb.ingress.kubernetes.io/healthcheck-path: "/api-service/hello"
 spec:
-  ingressClassName: alb  # Specify the Ingress Class here
   rules:
   - host: my-app.example.com
     http:
       paths:
-      - path: /
+      - path: /api-service
         pathType: Prefix
         backend:
           service:
