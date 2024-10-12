@@ -49,13 +49,12 @@ metadata:
     alb.ingress.kubernetes.io/healthcheck-path: "/api-service/hello"
 spec:
   rules:
-  - host: my-app.example.com
-    http:
-      paths:
-      - path: /api-service
-        pathType: Prefix
-        backend:
-          service:
-            name: my-app-service
-            port:
-              number: 8080  # Ensure this matches the service's exposed port
+    - http:
+        paths:
+          - path: /api-service
+            pathType: Prefix
+            backend:
+              service:
+                 name: my-app-service
+                 port:
+                   number: 8080  # Ensure this matches the service's exposed port
