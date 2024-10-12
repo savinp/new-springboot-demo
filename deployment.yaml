@@ -29,7 +29,7 @@ spec:
   selector:
     app: my-app
   ports:
-    - protocol: TCP
+    - name: http
       port: 80           # This should match the port number used in the Ingress
       targetPort: 8080    # This is the port where your application is running inside the pods
   type: ClusterIP
