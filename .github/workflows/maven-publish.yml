@@ -30,17 +30,11 @@ jobs:
 
 
     - name: Get short SHA
-      id: shortsha
+      id: vars
       run: echo "SHORT_SHA=${GITHUB_SHA::7}" >> $GITHUB_ENV
 
-    - name: Update workflow run name
-      env:
-        GH_TOKEN: ${{ github.token }}
-      run: |
-        gh api \
-          -X PATCH \
-          repos/${{ github.repository }}/actions/runs/${{ github.run_id }} \
-          -f name="CICD Pipeline - Maven Package ($SHORT_SHA)"
+    - name: Display build info
+      run: echo "🚀 CICD Pipeline - Maven Package ($SHORT_SHA)"
 
 
     - name: Build with Maven
