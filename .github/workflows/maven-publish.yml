@@ -2,7 +2,6 @@
 # For more information see: https://github.com/actions/setup-java/blob/main/docs/advanced-usage.md#apache-maven-with-a-settings-path
 
 name: CICD Pipeline- Maven Package
-run-name: CICD Pipeline - Maven Package (${{ github.sha::0:7 }})
 
 on:
   workflow_dispatch:
@@ -28,14 +27,14 @@ jobs:
         server-id: github # Value of the distributionManagement/repository/id field of the pom.xml
         settings-path: ${{ github.workspace }} # location for the settings.xml file
 
-
     - name: Get short SHA
       id: vars
-      run: echo "SHORT_SHA=${GITHUB_SHA::7}" >> $GITHUB_ENV
+      run: echo "sha_short=$(echo ${GITHUB_SHA} | cut -c1-7)" >> $GITHUB_OUTPUT
 
-    - name: Display build info
-      run: echo "🚀 CICD Pipeline - Maven Package ($SHORT_SHA)"
-
+    - name: Rename workflow run
+      run: gh run edit ${{ github.run_id }} --name "Maven Publish (${{ steps.vars.outputs.sha_short }})"
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Build with Maven
       run: mvn clean install
