@@ -7,6 +7,11 @@ on:
   workflow_dispatch:
   release:
     types: [created]
+
+env:
+  SHA_SHORT: ${{ github.sha }}
+
+run-name: Maven Publish (${{ env.SHA_SHORT }})    
     
 jobs:
   build:
@@ -26,15 +31,6 @@ jobs:
         distribution: 'temurin'
         server-id: github # Value of the distributionManagement/repository/id field of the pom.xml
         settings-path: ${{ github.workspace }} # location for the settings.xml file
-
-    - name: Get short SHA
-      id: vars
-      run: echo "sha_short=$(echo ${GITHUB_SHA} | cut -c1-7)" >> $GITHUB_OUTPUT
-
-    - name: Rename workflow run
-      run: gh run edit ${{ github.run_id }} --name "Maven Publish (${{ steps.vars.outputs.sha_short }})"
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Build with Maven
       run: mvn clean install
