@@ -2,7 +2,7 @@
 # For more information see: https://github.com/actions/setup-java/blob/main/docs/advanced-usage.md#apache-maven-with-a-settings-path
 
 name: CICD Pipeline- Maven Package
-run-name: CICD Pipeline - Maven Package $GITHUB_ENV
+run-name: CICD Pipeline - Maven Package (${{ github.sha::0:7 }})
 
 on:
   workflow_dispatch:
