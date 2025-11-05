@@ -8,10 +8,7 @@ on:
   release:
     types: [created]
 
-env:
-  SHA_SHORT: ${{ github.sha }}
-
-run-name: Maven Publish (${{ env.SHA_SHORT }})    
+run-name: "Maven Publish (${{ github.ref_name }} - ${{ github.sha }})" 
     
 jobs:
   build:
