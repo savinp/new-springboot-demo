@@ -8,7 +8,7 @@ on:
   release:
     types: [created]
 
-run-name: "Maven Publish (${{ github.ref_name }} - ${{ github.sha }})" 
+run-name: "Maven Publish (${{ github.ref_name }} - ${{ github.event.head_commit.id }})" 
     
 jobs:
   build:
